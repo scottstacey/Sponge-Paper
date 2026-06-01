@@ -1,0 +1,213 @@
+library(ggplot2)
+
+Data <- read.csv("Data/Pooled_Chi.Bio_Experimental_ModelFitting_pp.csv", header = TRUE)
+
+plot_theme <- function(legend_pos) {
+  theme_minimal() +
+    theme(
+      text = element_text(size = 20),
+      axis.title = element_text(size = 20, hjust = 0.5),
+      plot.title = element_text(size = 20, hjust = 0.5, face = "bold"),
+      legend.title = element_text(size = 16, hjust = 0.5),
+      legend.text = element_text(size = 14),
+      legend.position = "inside",
+      legend.position.inside = legend_pos,
+      legend.background = element_rect(fill = "white", color = "black", linewidth = 1),
+      legend.key = element_rect(fill = "white", color = "white", linewidth = 1),
+      axis.line = element_line(linewidth = 1, color = "black"),
+      axis.ticks = element_line(linewidth = 1, color = "black"),
+      axis.text = element_text(size = 20),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank()
+    )
+}
+
+make_plot <- function(data, time_cols, y_cols, reps, colours, ylab, title, legend_pos) {
+  
+  plot_data <- data.frame()
+  
+  for (i in seq_along(reps)) {
+    
+    temp <- data.frame(
+      Time = data[[time_cols[i]]] / 60 / 60,
+      Value = data[[y_cols[i]]],
+      Replicate = reps[i]
+    )
+    
+    plot_data <- rbind(plot_data, temp)
+  }
+  
+  plot_data$Replicate <- factor(plot_data$Replicate, levels = reps)
+  
+  ggplot(plot_data, aes(x = Time, y = Value, color = Replicate)) +
+    geom_line(linewidth = 2) +
+    plot_theme(legend_pos) +
+    scale_x_continuous(
+      expand = c(0, 0),
+      breaks = scales::pretty_breaks(n = 7)
+    ) +
+    scale_y_continuous(
+      name = ylab,
+      expand = c(0, 0),
+      breaks = scales::pretty_breaks(n = 7)
+    ) +
+    scale_color_manual(
+      name = "Replicate",
+      values = colours
+    ) +
+    labs(
+      x = "Time (Hours)",
+      title = title
+    )
+}
+
+pSS_01_003 <- make_plot(
+  Data,
+  c("PTac.EGFP.2.Time..s.", "PTac.EGFP.3.Time..s."),
+  c("PTac.EGFP.2.EGFP..nM.", "PTac.EGFP.3.EGFP..nM."),
+  c("Rep2", "Rep3"),
+  c("Rep2" = "darkgreen", "Rep3" = "limegreen"),
+  "[GFPmut3] per cell (nM)",
+  "Absolute Quantification \npSS-01-003 Chi.Bio Characterisation",
+  c(0.175, 0.875)
+)
+
+pSS_01_002 <- make_plot(
+  Data,
+  c(
+    "PLuxB.EGFP.1.Time..s.",
+    "PLuxB.EGFP.2.Time..s.",
+    "PLuxB.EGFP.3.Time..s.",
+    "PLuxB.EGFP.4.Time..s.",
+    "PLuxB.EGFP.5.Time..s."
+  ),
+  c(
+    "PLuxB.EGFP.1.EGFP..nM.",
+    "PLuxB.EGFP.2.EGFP..nM.",
+    "PLuxB.EGFP.3.EGFP..nM.",
+    "PLuxB.EGFP.4.EGFP..nM.",
+    "PLuxB.EGFP.5.EGFP..nM."
+  ),
+  c("Rep1", "Rep2", "Rep3", "Rep4", "Rep5"),
+  c(
+    "Rep1" = "darkgreen",
+    "Rep2" = "limegreen",
+    "Rep3" = "chartreuse",
+    "Rep4" = "darkseagreen",
+    "Rep5" = "olivedrab"
+  ),
+  "[GFPmut3] per cell (nM)",
+  "Absolute Quantification \npSS-01-002 Chi.Bio Characterisation",
+  c(0.175, 0.675)
+)
+
+pSS_01_001 <- make_plot(
+  Data,
+  c(
+    "PVanCC.EGFP.2.Time..s.",
+    "PVanCC.EGFP.3.Time..s.",
+    "PVanCC.EGFP.4.Time..s."
+  ),
+  c(
+    "PVanCC.EGFP.2.EGFP..nM.",
+    "PVanCC.EGFP.3.EGFP..nM.",
+    "PVanCC.EGFP.4.EGFP..nM."
+  ),
+  c("Rep2", "Rep3", "Rep4"),
+  c(
+    "Rep2" = "limegreen",
+    "Rep3" = "chartreuse",
+    "Rep4" = "darkseagreen"
+  ),
+  "[GFPmut3] per cell (nM)",
+  "Absolute Quantification \npSS-01-001 Chi.Bio Characterisation",
+  c(0.175, 0.675)
+)
+
+pSS_02_001 <- make_plot(
+  Data,
+  c("PVanCC.EGFP_PLuxB.sRNA20D.1.Time..s."),
+  c("PVanCC.EGFP_PLuxB.sRNA20D.1.EGFP..nM."),
+  c("Rep1"),
+  c("Rep1" = "darkgreen"),
+  "[GFPmut3] per cell (nM)",
+  "Absolute Quantification \npSS-02-001 Chi.Bio Characterisation",
+  c(0.175, 0.175)
+)
+
+pSS_02_005_GFPmut3 <- make_plot(
+  Data,
+  c("Sponge.Circuit.1.3.1.Time..s.", "Sponge.Circuit.1.3.2.Time..s."),
+  c("Sponge.Circuit.1.3.1.EGFP..nM.", "Sponge.Circuit.1.3.2.EGFP..nM."),
+  c("Rep1", "Rep2"),
+  c("Rep1" = "darkgreen", "Rep2" = "limegreen"),
+  "[GFPmut3] per cell (nM)",
+  "Absolute Quantification \npSS-02-005 Chi.Bio Characterisation",
+  c(0.175, 0.175)
+)
+
+pSS_02_006_GFPmut3 <- make_plot(
+  Data,
+  c(
+    "Sponge.Circuit.1.4.1.Time..s.",
+    "Sponge.Circuit.1.4.2.Time..s.",
+    "Sponge.Circuit.1.4.3.Time..s.",
+    "Sponge.Circuit.1.4.4.Time..s."
+  ),
+  c(
+    "Sponge.Circuit.1.4.1.EGFP..nM.",
+    "Sponge.Circuit.1.4.2.EGFP..nM.",
+    "Sponge.Circuit.1.4.3.EGFP..nM.",
+    "Sponge.Circuit.1.4.4.EGFP..nM."
+  ),
+  c("Rep1", "Rep2", "Rep3", "Rep4"),
+  c(
+    "Rep1" = "darkgreen",
+    "Rep2" = "limegreen",
+    "Rep3" = "chartreuse",
+    "Rep4" = "darkseagreen"
+  ),
+  "[GFPmut3] per cell (nM)",
+  "Absolute Quantification \npSS-02-006 Chi.Bio Characterisation",
+  c(0.175, 0.225)
+)
+
+pSS_02_006_mScarlet <- make_plot(
+  Data,
+  c(
+    "Sponge.Circuit.1.4.1.Time..s.",
+    "Sponge.Circuit.1.4.2.Time..s.",
+    "Sponge.Circuit.1.4.3.Time..s.",
+    "Sponge.Circuit.1.4.4.Time..s."
+  ),
+  c(
+    "Sponge.Circuit.1.4.1.mScarlet.I..nM.",
+    "Sponge.Circuit.1.4.2.mScarlet.I..nM.",
+    "Sponge.Circuit.1.4.3.mScarlet.I..nM.",
+    "Sponge.Circuit.1.4.4.mScarlet.I..nM."
+  ),
+  c("Rep1", "Rep2", "Rep3", "Rep4"),
+  c(
+    "Rep1" = "darkred",
+    "Rep2" = "orangered",
+    "Rep3" = "deeppink",
+    "Rep4" = "indianred"
+  ),
+  "[mScarlet-I] per cell (nM)",
+  "Absolute Quantification \npSS-02-006 Chi.Bio Characterisation",
+  c(0.175, 0.675)
+)
+
+plots <- list(
+  pSS_01_003 = pSS_01_003,
+  pSS_01_002 = pSS_01_002,
+  pSS_01_001 = pSS_01_001,
+  pSS_02_001 = pSS_02_001,
+  pSS_02_005_GFPmut3 = pSS_02_005_GFPmut3,
+  pSS_02_006_GFPmut3 = pSS_02_006_GFPmut3,
+  pSS_02_006_mScarlet = pSS_02_006_mScarlet
+)
+
+for (name in names(plots)) {
+  print(plots[[name]])
+}
