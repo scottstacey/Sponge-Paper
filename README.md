@@ -17,8 +17,11 @@ Preprint: [https://doi.org/10.64898/2026.05.19.726096](https://doi.org/10.64898/
 For questions about the repository or manuscript, please contact:
 
 Scott B. Stacey
+
 Department of Engineering Science
+
 University of Oxford
+
 scott.stacey@eng.ox.ac.uk
 
 ## License
