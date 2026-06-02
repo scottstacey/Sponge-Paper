@@ -6,6 +6,8 @@ This repository contains the code and data used to reproduce the main-text figur
 
 The manuscript develops synthetic sponge RNA (spRNA) circuits in *E. coli* and combines time-resolved continuous-culture characterisation, absolute fluorescent protein quantification, and mechanistic modelling to investigate spRNA-mediated regulation.
 
+![Graphical abstract](Figures/graphical_abstract.pdf)
+
 # Citation
 If using this repository, please cite:
 
