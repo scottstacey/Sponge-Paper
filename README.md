@@ -17,7 +17,7 @@ Sponge RNAs (spRNAs) play an important regulatory role in bacterial small RNA (s
 # Citation
 If using this repository, please cite:
 
-Stacey, S. B., Sechkar, K., Corrao, M., Steel, H., and Papachristodoulou, A. (2026). Quantitative Engineering and Investigation of Synthetic Sponge RNAs in *E. coli*.
+Stacey, S. B., Sechkar, K., Corrao, M., Steel, H., and Papachristodoulou, A. (2026). Quantitative Engineering and Investigation of Synthetic Sponge RNAs in *E. coli*. *bioRxiv* 2026.05.19.726096.
 
 Preprint: [https://doi.org/10.64898/2026.05.19.726096](https://doi.org/10.64898/2026.05.19.726096)
 
